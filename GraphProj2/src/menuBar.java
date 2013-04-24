@@ -4,6 +4,7 @@
 * Purpose: Creates a menu bar for the application
 *************************************************************/
 import javax.swing.*;
+
 import java.awt.event.*;
 public class menuBar  implements ActionListener{
 	JMenuBar bar = new JMenuBar();
@@ -60,6 +61,7 @@ public class menuBar  implements ActionListener{
 		for (int i = 0; i < Constants.DEF_SETTINGS_MENU_ITEMS.length; i++)
 		{
 			settingsMenuItems[i] = new JMenuItem(Constants.DEF_SETTINGS_MENU_ITEMS[i], new ImageIcon(Constants.DEF_SETTINGS_MENU_ICONS[i]));
+			settingsMenuItems[i].addActionListener(this);
 			menus[3].add(settingsMenuItems[i]);
 		}
 		
@@ -67,6 +69,7 @@ public class menuBar  implements ActionListener{
 		for (int i = 0; i < Constants.DEF_HELP_MENU_ITEMS.length; i++)
 		{
 			helpMenuItems[i] = new JMenuItem(Constants.DEF_HELP_MENU_ITEMS[i], new ImageIcon(Constants.DEF_HELP_MENU_ICONS[i]));
+			helpMenuItems[i].addActionListener(this);
 			menus[4].add(helpMenuItems[i]);
 		}
 		return bar;
@@ -135,6 +138,18 @@ public class menuBar  implements ActionListener{
 				ArduinoMain.myStatusbar.setVisible(true);
 			else
 				ArduinoMain.myStatusbar.setVisible(false);
+		}
+		
+		// Settings Menu
+		else if (event.getSource() == settingsMenuItems[0])
+		{
+			System.out.println("Pressed Settings");
+		}
+		
+		// Help Menu - Used to provide information about product
+		else if (event.getSource() == helpMenuItems[0]) // About
+		{
+			JOptionPane.showMessageDialog(ArduinoMain.myFrame, Constants.DEF_TOOLBAR_ABOUT_MESSAGE,"About",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	

@@ -50,10 +50,13 @@ class Constants {
 												"resources/start.png", "resources/stop.png",
 												"resources/Help book 3d.png", "resources/Refresh.png",};
 	public static final String[] DEF_BUTTON_LABELS = { "New", "Open", "Save", "Save as", "Print", "Settings",
-												"Start", "Stop", "Help","Rescan serial ports" };
+												"Start", "Stop", "About","Rescan serial ports" };
 	public static final boolean  DEF_TOOLBAR_MOVABLE = false;
-	
-	
+	public static final String   DEF_TOOLBAR_ABOUT_MESSAGE = "Troika Animated Graphing Software is an open source project intended to \n" +
+															"serve as an easier alternative than using the command-line interface. \n\n" +
+															"Credits:\n" +
+															"RXTX library: http://www.cloudhopper.com/opensource/rxtx/ \n" +
+															"Icons:  www.aha-soft.com";
 	
 	/********************************* Graph Constants ****************************/
 	public static final String   DEF_GRAPH_TITLE = "Title";
@@ -66,20 +69,21 @@ class Constants {
 	public static final short    DEF_NUM_SERIES = 1;     // Start with one series
 	public static final short    DEF_MAX_NUM_SERIES = 6; // Maximum number of 6 series
 	public static final String[] DEF_SERIES_TITLES = {"Series 1:    ", "Series 2: ", "Series 3: ", "Series 4: ", "Series 5: ", "Series 6: "};
-	public static final Color[]  DEF_SERIES_COLORS = {Color.BLACK, Color.BLUE, Color.GREEN, Color.ORANGE,
-													Color.MAGENTA, Color.PINK};
+	public static final Color[]  DEF_SERIES_COLORS = {Color.BLACK, Color.BLUE, Color.GREEN, Color.ORANGE, Color.MAGENTA, Color.PINK};
 	public static final String   DEF_ADDSERIES_LABEL = "Add Series"; // Add new series button
 	public static final double   DEF_TIME_INCREMENT = 1;
-	public static final String   DEF_TIME_MEASUREMENT[] = {"s", "ms"};
-	
+	public static final String   DEF_TIME_MEASUREMENT[] = {"s", "ms"}; 
+	public static final String   DEF_SERIES_SHOW_ICON_FILE = "resources/EyeOpen.png";
+	public static final String   DEF_SERIES_HIDE_ICON_FILE = "resources/EyeClosed.png";
 
 	/************************ Settings Manager Constants *************************/
-	public static final int      DEF_TEXTBOX_WIDTH = 10; // Default width of each text box	
+	public static final int      DEF_SETTINGSMANAGER_TEXTBOX_WIDTH = 10; // Default width of each text box	
 	public static final String[] DEF_SETTINGSMANAGER_LABELS = {"Graph Title: ", "X Axis Label: ",  // Labels
 		"Y Axis Label: ", "X Start Value: ", "Y Start Value: ", "Time Increment: "};
 	public static final Object[] DEF_SETTINGSMANAGER_FIELDS = {DEF_GRAPH_TITLE, DEF_XAXIS_LABEL, // Text fields
 		DEF_YAXIS_LABEL, DEF_X_START_VALUE, DEF_Y_START_VALUE, DEF_TIME_INCREMENT};
-	public static final Color    DEF_SETTINGSMANAGER_BACKGROUNDCOLOR = Color.PINK;
+	public static final Color    DEF_SETTINGSMANAGER_BACKGROUNDCOLOR = new Color(220, 220, 244);
 	public static final String[] DEF_TIMEMEASUREMENT_BOXITEMS = {"s","ms"};
-		
+	public static final String   DEF_SETTINGSMANAGER_ADD_SERIES_BUTTON = "Add";
+	public static final String   DEF_SETTINGSMANAGER_REMOVE_SERIES_BUTTON = "Remove";
 }

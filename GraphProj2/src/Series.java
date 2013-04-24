@@ -1,14 +1,13 @@
 import info.monitorenter.gui.chart.ITrace2D;
 import info.monitorenter.gui.chart.TracePoint2D;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
+import info.monitorenter.util.Range;
 
 import java.util.Vector;
 
 public class Series extends Graph
 {
 	protected Vector<TracePoint2D> m_data;
-	protected double m_xStartPoint;
-	protected double m_yStartPoint;
 	private ITrace2D m_trace;
 
 	public Series()
@@ -69,26 +68,6 @@ public class Series extends Graph
 
 		m_data.add(dataPoint);
 		m_trace.addPoint(dataPoint);
-	}
-
-	public double getXStartPoint()
-	{
-		return m_xStartPoint;
-	}
-
-	public void setXStartPoint(double xStartPoint)
-	{
-		m_xStartPoint = xStartPoint;
-	}
-
-	public double getYStartPoint()
-	{
-		return m_yStartPoint;
-	}
-
-	public void setYStartPoint(double yStartPoint)
-	{
-		m_yStartPoint = yStartPoint;
 	}
 }
 

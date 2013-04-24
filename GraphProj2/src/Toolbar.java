@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 
 public class Toolbar implements ActionListener {
@@ -91,7 +92,7 @@ public class Toolbar implements ActionListener {
 		}
 
 		// Buttons 6 & 7: Connecting to device
-		/*else if (event.getSource() == buttons[6]) {
+		else if (event.getSource() == buttons[6]) {
 			if (ArduinoConnection.isConnected == false) // We are not connected
 			{
 				if (ArduinoConnection.availableSerialPorts.size() != 0) // We can connect to a serial port
@@ -129,13 +130,13 @@ public class Toolbar implements ActionListener {
 		}
 		// Help
 		else if (event.getSource() == buttons[8]) {
-			System.out.println("You Pressed Help!");
+			JOptionPane.showMessageDialog(ArduinoMain.myFrame, Constants.DEF_TOOLBAR_ABOUT_MESSAGE,"About",JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		// Refresh serial ports list
 		else if (event.getSource() == buttons[9]) {
 			ArduinoConnection.setAvailableSerialPorts();
-		}*/
+		}
 
 	}
 }
