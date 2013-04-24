@@ -1,3 +1,6 @@
+import java.awt.List;
+import java.util.Hashtable;
+
 import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.IAxis;
 import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
@@ -8,6 +11,7 @@ public class Graph
 	private double m_time_increment; // By what value are we incrementing time
 	private String m_time_measurement; // Measurement of time in seconds or milliseconds
 	protected static Chart2D m_graph;
+	private Hashtable<String, Series> m_seriesList;
 	private IAxis<?> m_x_axis;
 	private IAxis<?> m_y_axis;
 	protected double m_xStartPoint;
@@ -128,5 +132,14 @@ public class Graph
 	public void setYStartPoint(double yStartPoint)
 	{
 		m_yStartPoint = yStartPoint;
+	}
+	
+	public void addSeries(Series series)
+	{
+		m_seriesList.put(series.getTitle(), series);
+	}
+	public Hashtable<String, Series> getSeries()
+	{
+		return m_seriesList;
 	}
 }

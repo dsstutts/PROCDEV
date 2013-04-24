@@ -19,9 +19,13 @@ public class Series extends Graph
 		setYStartPoint(Constants.DEF_Y_START_VALUE);
 		
 		m_graph.addTrace(m_trace);
-		m_trace.setVisible(true);
 	}
 
+	public void Kill()
+	{
+		m_graph.removeTrace(m_trace);
+	}
+	
 	public String getTitle()
 	{
 		return m_trace.getName();
@@ -57,9 +61,9 @@ public class Series extends Graph
 		m_trace.setVisible(true);
 	}
 
-	public Vector<TracePoint2D> getDataPoints()
+	public ITrace2D getTrace()
 	{
-		return m_data;
+		return m_trace;
 	}
 
 	public void AddDataPoint(double X, double Y)
