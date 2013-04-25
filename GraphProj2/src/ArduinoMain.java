@@ -1,3 +1,5 @@
+//Package named TroikaGUI
+
 /************************************************************
  * Name:    Katie Isbell
  * Title:   ArduinoMain.java
@@ -81,21 +83,6 @@ class ArduinoMain {
 		setCustomCloseOperation(); // Custom exit function
 	//	System.out.println(myGraph.getNumSeries());
 		
-		myFrame.addHierarchyBoundsListener(new HierarchyBoundsListener() {
-
-			@Override
-			public void ancestorMoved(HierarchyEvent arg0) {
-				System.out.println("sfdfffff");
-				
-			}
-
-			@Override
-			public void ancestorResized(HierarchyEvent arg0) {
-				myGraph.setYAxisLabel(myGraph.getYAxisLabel());
-				System.out.println("sdfs");
-			}
-			
-		});
 	}
 
 	/************************************************************
