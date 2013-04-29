@@ -77,8 +77,14 @@ class Constants {
 
 	/************************ Settings Manager Constants *************************/
 	public static final int      DEF_SETTINGSMANAGER_TEXTBOX_WIDTH = 10; // Default width of each text box	
-	public static final String[] DEF_SETTINGSMANAGER_LABELS = {"Graph Title: ", "X Axis Label: ",  // Labels
-		"Y Axis Label: ", "X Start Value: ", "Y Start Value: ", "Time Increment: "};
+	public static final String[] DEF_SETTINGSMANAGER_LABELS = { // Labels
+		"X Axis Label: ",  
+		//"Graph Title: ",
+		"Y Axis Label: ",
+		"X Start Value: ", 
+		"Y Start Value: ", 
+		"Time Increment: ",
+	};
 	public static final Object[] DEF_SETTINGSMANAGER_FIELDS = {DEF_GRAPH_TITLE, DEF_XAXIS_LABEL, // Text fields
 		DEF_YAXIS_LABEL, DEF_X_START_VALUE, DEF_Y_START_VALUE, DEF_TIME_INCREMENT};
 	public static final Color    DEF_SETTINGSMANAGER_BACKGROUNDCOLOR = new Color(220, 220, 244);
