@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 # Ignore the following:
 *.DS_Store
 *.Apple*
-=======
-/bin
->>>>>>> 4e9c998112c23646fd09b977e238bd56856a2d90
+/bin/*
