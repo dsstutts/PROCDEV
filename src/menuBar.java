@@ -152,5 +152,4 @@ public class menuBar  implements ActionListener{
 			JOptionPane.showMessageDialog(ArduinoMain.myFrame, Constants.DEF_TOOLBAR_ABOUT_MESSAGE,"About",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-	
 }

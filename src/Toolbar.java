@@ -18,6 +18,7 @@ public class Toolbar implements ActionListener {
 	JToolBar toolBar = new JToolBar();
 	ImageIcon[] icons = new ImageIcon[Constants.DEF_ICON_FILES.length];
 	JButton[] buttons = new JButton[Constants.DEF_BUTTON_LABELS.length];
+	@SuppressWarnings("rawtypes")
 	static JComboBox listSerialPorts_Dropdown;
 
 	
@@ -26,6 +27,7 @@ public class Toolbar implements ActionListener {
 	* Pre:     None
 	* Post:    All toolbar buttons/icons are set in place
 	*************************************************************/
+	@SuppressWarnings("rawtypes")
 	JToolBar createToolBar()
 	{
 		// Set the layout for the toolbar
@@ -85,8 +87,11 @@ public class Toolbar implements ActionListener {
 			System.out.println("You Pressed Save!");
 		} else if (event.getSource() == buttons[3]) {
 			System.out.println("You Pressed Save as!");
-		}else if (event.getSource() == buttons[4]) {
+		}
+		// Print button
+		else if (event.getSource() == buttons[4]) {
 			System.out.println("You Pressed Print!");
+
 		}else if (event.getSource() == buttons[5]) {
 			System.out.println("You Pressed Settings!");
 		}
@@ -100,26 +105,30 @@ public class Toolbar implements ActionListener {
 					// Establish a connection to the serial port
 					ArduinoConnection myArduino = new ArduinoConnection();
 					try {
+						// Set selected serial port
+						ArduinoConnection.selectedSerialPort =(String)listSerialPorts_Dropdown.getSelectedItem();
+						
 						// Connect to selected serial port
-						myArduino.connect(ArduinoConnection.connectedSerialPort);
+						myArduino.connect(ArduinoConnection.selectedSerialPort);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						
 						e.printStackTrace();
 					}
 					StatusBar.statusbar.setText("Receiving data...");
 					// Change the icon for disconnecting
 					buttons[6].setIcon(icons[7]);
 					buttons[6].setToolTipText(Constants.DEF_BUTTON_LABELS[7]);
-				} else {
+				}
+			else {
 					StatusBar.statusbar.setText("Error: No serial ports are available");
 				}
 			}
 			// We are currently connected
 			else {
 				try {
-					ArduinoConnection.disconnect(ArduinoConnection.availableSerialPorts.get(0));
+					ArduinoConnection.disconnect(ArduinoConnection.selectedSerialPort);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				StatusBar.statusbar.setText("");

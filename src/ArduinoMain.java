@@ -6,11 +6,7 @@
  *          and it includes a custom exit function
  *************************************************************/
 
-import info.monitorenter.gui.chart.Chart2D;
-
 import java.awt.BorderLayout;
-import java.awt.event.HierarchyBoundsListener;
-import java.awt.event.HierarchyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -37,8 +33,8 @@ class ArduinoMain {
 				UIManager.put("swing.boldMetal", Boolean.FALSE);
 				createAndShowGUI();
 			}
-
 		});
+		
 	}
 
 	/************************************************************
@@ -58,7 +54,7 @@ class ArduinoMain {
 		SettingsManager settingsManager = new SettingsManager();
 		StatusBar statusbar = new StatusBar();
 		myGraph = new Graph();
-		
+
 		myToolbar = toolBar.createToolBar();
 		mySettingsManager = settingsManager.createSettingsManager();
 		myStatusbar = statusbar.createStatusBar();
@@ -68,34 +64,17 @@ class ArduinoMain {
 		myFrame.add(myToolbar, BorderLayout.NORTH);
 		myFrame.add(mySettingsManager, BorderLayout.WEST);
 		myFrame.add(myStatusbar, BorderLayout.SOUTH);
-
 		myFrame.add(myGraph.getGraph(), BorderLayout.CENTER);
 
 		myGraph.setXAxisLabel(Constants.DEF_XAXIS_LABEL);
 		myGraph.setYAxisLabel(Constants.DEF_YAXIS_LABEL);
-		
+
 		myFrame.setSize(Constants.DEF_FRAME_WIDTH, Constants.DEF_FRAME_HEIGHT);
 		myFrame.setLocationRelativeTo(null); // Window is Centered
 		myFrame.setVisible(true);
 		myFrame.getContentPane().setBackground(Constants.DEF_BACKGROUND_COLOR);
 		setCustomCloseOperation(); // Custom exit function
 	//	System.out.println(myGraph.getNumSeries());
-		
-		myFrame.addHierarchyBoundsListener(new HierarchyBoundsListener() {
-
-			@Override
-			public void ancestorMoved(HierarchyEvent arg0) {
-				System.out.println("sfdfffff");
-				
-			}
-
-			@Override
-			public void ancestorResized(HierarchyEvent arg0) {
-				myGraph.setYAxisLabel(myGraph.getYAxisLabel());
-				System.out.println("sdfs");
-			}
-			
-		});
 	}
 
 	/************************************************************
@@ -121,7 +100,8 @@ class ArduinoMain {
 		// Close the connection if connection exists
 		if (ArduinoConnection.isConnected) {
 			try {
-				ArduinoConnection.disconnect(Constants.DEF_PORT_NAME);
+				//TODO: Need to change this
+				ArduinoConnection.disconnect(ArduinoConnection.selectedSerialPort);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -6,14 +6,11 @@
  *          forth.
  *************************************************************/
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -32,6 +29,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 
 public class SettingsManager extends JFrame implements PropertyChangeListener, ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel settingsManagerPanel = new JPanel(); // Holds both panels
 	JPanel graphPanel = new JPanel();
 	JPanel seriesPanel = new JPanel();
@@ -183,11 +184,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesColorButton[i].setVisible(false);
 				seriesShowHideButton[i].setVisible(false);
 			}
-			
-			
-			
 		}
-		
 
 		/***************************************************************************************/
 		// SETTINGS MANAGER PANEL
@@ -218,100 +215,153 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 		// Time Measurement Dropdown
 		if (event.getSource() == timeMeasurement_Dropdown) {
 			if (timeMeasurement_Dropdown.getSelectedItem() == "s") {
-				System.out.println("You selected s");
+				ArduinoMain.myGraph.setTimeMeasurement("s");
 			} else if (timeMeasurement_Dropdown.getSelectedItem() == "ms") {
-				System.out.println("You selected ms");
+				ArduinoMain.myGraph.setTimeMeasurement("ms");
 			}
-		}
-		// Remove Series Button
-		else if (event.getSource() == removeSeriesButton) {
-			int numSeries = ArduinoMain.myGraph.getNumSeries();
-			
-			// Decrement the number of series
-			if (numSeries == Constants.DEF_NUM_SERIES + 1)
-				removeSeriesButton.setEnabled(false);
-			else if (numSeries == Constants.DEF_MAX_NUM_SERIES)
-				addSeriesButton.setEnabled(true);
-			// Set visible old series row
-			seriesLabels[numSeries-1].setVisible(false);
-			seriesFields[numSeries-1].setVisible(false);
-			seriesColorButton[numSeries-1].setVisible(false);
-			seriesShowHideButton[numSeries-1].setVisible(false);
-			ArduinoMain.myGraph.setNumSeries(--numSeries);
-			System.out.println("Num series is " + ArduinoMain.myGraph.getNumSeries());
 		}
 		
 		// Add Series Button
 		else if (event.getSource() == addSeriesButton) {
 			int numSeries = ArduinoMain.myGraph.getNumSeries();
-			if (numSeries == Constants.DEF_NUM_SERIES)
+			if (numSeries == Constants.DEF_NUM_SERIES) {
 				removeSeriesButton.setEnabled(true);
-			if (numSeries == Constants.DEF_MAX_NUM_SERIES - 1) // 6
+			}
+			if (numSeries == Constants.DEF_MAX_NUM_SERIES - 1) { // 6
 				addSeriesButton.setEnabled(false);
+			}
 			// Set visible new series row
 			seriesLabels[numSeries].setVisible(true);
 			seriesFields[numSeries].setVisible(true);
 			seriesColorButton[numSeries].setVisible(true);
 			seriesShowHideButton[numSeries].setVisible(true);
 			
-			ArduinoMain.myGraph.setNumSeries(++numSeries);
-			System.out.println("Num series is " + ArduinoMain.myGraph.getNumSeries());
+			ArduinoMain.myGraph.addSeries();
 		}
-		// Series Hide/Show Button
 		
-		//TODO: Call isHidden functions for these
+		
+		else if (event.getSource() == removeSeriesButton) {
+			int numSeries = ArduinoMain.myGraph.getNumSeries();
+			
+			if (numSeries == Constants.DEF_NUM_SERIES + 1) {
+				removeSeriesButton.setEnabled(false);
+			}
+			else if (numSeries == Constants.DEF_MAX_NUM_SERIES) {
+				addSeriesButton.setEnabled(true);
+			}
+			seriesLabels[numSeries-1].setVisible(false); // This does not change
+		
+			seriesFields[numSeries - 1].setText(Constants.DEF_SERIES_TITLES[numSeries-1]);
+			seriesFields[numSeries-1].setVisible(false);
+			
+			seriesColorButton[numSeries-1].setVisible(false);
+			seriesColorButton[numSeries-1].setBackground(Constants.DEF_SERIES_COLORS[numSeries-1]);
+			
+			seriesShowHideButton[numSeries-1].setVisible(false);
+			seriesShowHideButton[numSeries - 1].setIcon(showIcon);
+			ArduinoMain.myGraph.removeSeries();
+		}
+		
+		// Series Hide/Show Button
 		else if (event.getSource() == seriesShowHideButton[0]) {
-			seriesShowHideButton[0].setIcon(hideIcon);
+			if ( !(ArduinoMain.myGraph.m_seriesList[0].isHidden()) ) {
+				seriesShowHideButton[0].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[0].Hide();
+			}
+			else {
+				seriesShowHideButton[0].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[0].Show();
+			}
 		}
 		else if (event.getSource() == seriesShowHideButton[1]) {
-			seriesShowHideButton[1].setIcon(hideIcon);
+			if ( !(ArduinoMain.myGraph.m_seriesList[1].isHidden()) ) {
+				seriesShowHideButton[1].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[1].Hide();
+			}
+			else {
+				seriesShowHideButton[1].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[1].Show();
+			}
 		}
 		else if (event.getSource() == seriesShowHideButton[2]) {
-			seriesShowHideButton[2].setIcon(hideIcon);
+			if ( !(ArduinoMain.myGraph.m_seriesList[2].isHidden()) ) {
+				seriesShowHideButton[2].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[2].Hide();
+			}
+			else {
+				seriesShowHideButton[2].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[2].Show();
+			}
 		}
 		else if (event.getSource() == seriesShowHideButton[3]) {
-			System.out.println("hi");
+			if ( !(ArduinoMain.myGraph.m_seriesList[3].isHidden()) ) {
+				seriesShowHideButton[3].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[3].Hide();
+			}
+			else {
+				seriesShowHideButton[3].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[3].Show();
+			}
 		}
 		else if (event.getSource() == seriesShowHideButton[4]) {
-			System.out.println("hi");
+			if ( !(ArduinoMain.myGraph.m_seriesList[4].isHidden()) ) {
+				seriesShowHideButton[4].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[4].Hide();
+			}
+			else {
+				seriesShowHideButton[4].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[4].Show();
+			}
 		}
 		else if (event.getSource() == seriesShowHideButton[5]) {
-			System.out.println("hi");
+			if ( !(ArduinoMain.myGraph.m_seriesList[5].isHidden()) ) {
+				seriesShowHideButton[5].setIcon(hideIcon);
+				ArduinoMain.myGraph.m_seriesList[5].Hide();
+			}
+			else {
+				seriesShowHideButton[5].setIcon(showIcon);
+				ArduinoMain.myGraph.m_seriesList[5].Show();
+			}
 		}
 		
 		// Series Color Button
 		else {
+			@SuppressWarnings("unused")
 			Color initialcolor = Color.red;
 			Color color = JColorChooser.showDialog(this, "Select a color", Color.red);
 
 			if (color != null) {
 				if (event.getSource() == seriesColorButton[0]) {
 					seriesColorButton[0].setBackground(color);
-					System.out.println("The color is " + color);
+					ArduinoMain.myGraph.m_seriesList[0].setColor(color);
 				}
 
 				else if (event.getSource() == seriesColorButton[1]){
 					seriesColorButton[1].setBackground(color);
+					ArduinoMain.myGraph.m_seriesList[1].setColor(color);
 				}
 
 				else if (event.getSource() == seriesColorButton[2]){
 					seriesColorButton[2].setBackground(color);
+					ArduinoMain.myGraph.m_seriesList[2].setColor(color);
 				}
 
 				else if (event.getSource() == seriesColorButton[3]) {
 					seriesColorButton[3].setBackground(color);
+					ArduinoMain.myGraph.m_seriesList[3].setColor(color);
 				}
 
 				else if (event.getSource() == seriesColorButton[4]) {
 					seriesColorButton[4].setBackground(color);
+					ArduinoMain.myGraph.m_seriesList[4].setColor(color);
 				}
 
 				else if (event.getSource() == seriesColorButton[5]) {
 					seriesColorButton[5].setBackground(color);
+					ArduinoMain.myGraph.m_seriesList[5].setColor(color);
 				}
 			}
 		}
-
 	}
 
 	/************************************************************
@@ -324,46 +374,42 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 
 		// Change graph title
 		if (source == settingsManagerFields[0]) {
+			//TODO:
 			System.out.println("Changed graph title");
 		}
 		// Change x axis label
 		else if (source == settingsManagerFields[1]) {
-			ArduinoMain.myGraph.setXAxisLabel((String) settingsManagerFields[1].getValue());
-			
+			ArduinoMain.myGraph.setXAxisLabel((String) settingsManagerFields[1].getValue());	
 		}
 		// Change y axis label
 		else if (source == settingsManagerFields[2]) {
-			ArduinoMain.myGraph.setYAxisLabel((String) settingsManagerFields[2]
-					.getValue());
-			System.out.println("Changed Y Axis Label to "
-					+ settingsManagerFields[2].getValue());
+			ArduinoMain.myGraph.setYAxisLabel((String) settingsManagerFields[2].getValue());
 		}
 		// Change x start value
 		else if (source == settingsManagerFields[3]) {
 			ArduinoMain.myGraph.setXStartPoint((Double)settingsManagerFields[3].getValue());
-			System.out.println("Changed X Start Value");
 		}
 		// Change Y start value
 		else if (source == settingsManagerFields[4]) {
-			System.out.println("Changed Y Start Value");
+			ArduinoMain.myGraph.setYStartPoint((Double)settingsManagerFields[4].getValue());
 		}
 		// Change time increment
 		else if (source == settingsManagerFields[5]) {
-			System.out.println("Changed Time Increment");
+			ArduinoMain.myGraph.setTimeIncrement((Double)settingsManagerFields[5].getValue());
 		}
-		// Series Labels
+		// Series Titles
 		else if (source == seriesFields[0]) {
-			System.out.println("Changed Series 1");
+			ArduinoMain.myGraph.m_seriesList[0].setTitle((String)seriesFields[0].getValue());
 		} else if (source == seriesFields[1]) {
-			System.out.println("Changed Series 2");
+			ArduinoMain.myGraph.m_seriesList[1].setTitle((String)seriesFields[1].getValue());
 		} else if (source == seriesFields[2]) {
-			System.out.println("Changed Series 3");
+			ArduinoMain.myGraph.m_seriesList[2].setTitle((String)seriesFields[2].getValue());
 		} else if (source == seriesFields[3]) {
-			System.out.println("Changed Series 4");
+			ArduinoMain.myGraph.m_seriesList[3].setTitle((String)seriesFields[3].getValue());
 		} else if (source == seriesFields[4]) {
-			System.out.println("Changed Series 5");
+			ArduinoMain.myGraph.m_seriesList[4].setTitle((String)seriesFields[4].getValue());
 		} else if (source == seriesFields[5]) {
-			System.out.println("Changed Series 6");
+			ArduinoMain.myGraph.m_seriesList[5].setTitle((String)seriesFields[5].getValue());
 		}
 	}
 

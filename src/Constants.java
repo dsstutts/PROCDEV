@@ -9,7 +9,6 @@ import java.awt.Color;
 class Constants {
 	/********************************* Arduino Settings ************************/
 	public static final int    DEF_BAUD_RATE = 9600;
-	public static final String DEF_PORT_NAME = "COM6";
 	
 	/********************************* Frame Settings ****************************/
 	public static final String DEF_APP_TITLE = "Troika Animated Graphing Software";

@@ -1,13 +1,12 @@
-import java.util.Vector;
-
 /************************************************************
 * Name:    Katie Isbell
 * Title:   ArduinoConnection.java
 * Purpose: Used for establishing a serial connection between
 *          the PC and another device, such as an arduino.
+* Other:   If using Linux you will connect to ttyACM0      
 *************************************************************/
 
-/*import gnu.io.CommPort;
+import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -15,18 +14,17 @@ import gnu.io.SerialPortEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Vector;*/
+import java.util.Vector;
 
 public class ArduinoConnection {
-	//SerialReader sReader;
-	//static SerialPort serialPort;
+	SerialReader sReader;
+	static SerialPort serialPort;
 	String inputString;
     static boolean isConnected = false;
     static Vector<String> availableSerialPorts = new Vector<String>();
-    static String connectedSerialPort = Constants.DEF_PORT_NAME;
-	
+    static String selectedSerialPort; // The connected serial port that the user has selected from the dropdown menu
 	public ArduinoConnection() {
-		//super();
+		super();
 	}
 	
 
@@ -36,9 +34,10 @@ public class ArduinoConnection {
 	* Post:    Finds all available serial ports and initializes vector
 	*          availableSerialPorts
 	*************************************************************/
+	@SuppressWarnings("unchecked")
 	public static void setAvailableSerialPorts()
     {
-		/*// Empty our vector and remove all elements in our dropdown menu
+		// Empty our vector and remove all elements in our dropdown menu
 		if (!availableSerialPorts.isEmpty()) 
 		{	
 			if(Toolbar.listSerialPorts_Dropdown.getItemCount() > 0)
@@ -49,6 +48,8 @@ public class ArduinoConnection {
 			availableSerialPorts.clear();
 		}
 		
+		
+		// Add new elements to our dropdown menu
 		java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
         while ( portEnum.hasMoreElements() ) 
         {
@@ -57,6 +58,7 @@ public class ArduinoConnection {
             {
             	//System.out.println(portIdentifier.getName());
         		availableSerialPorts.add(portIdentifier.getName());
+        		
         		
         		// Add list of serial ports to dropdown
         		Toolbar.listSerialPorts_Dropdown.addItem(portIdentifier.getName());
@@ -74,7 +76,7 @@ public class ArduinoConnection {
 		else
 		{
 			StatusBar.statusbar.setText(Constants.DEF_WARNING_NO_CONNECTED_PORTS);
-		}*/
+		}	
     }
 	
 
@@ -88,7 +90,7 @@ public class ArduinoConnection {
 	*************************************************************/
 	void connect ( String portName ) throws Exception
     {
-        /*CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
         
         // The port must be closed before being accessed
         if ( portIdentifier.isCurrentlyOwned() )
@@ -112,11 +114,11 @@ public class ArduinoConnection {
         sReader = new SerialReader(in);
         serialPort.addEventListener(sReader);
         serialPort.notifyOnDataAvailable(true);
-        isConnected = true;  // Set isConnected flag*/
+        isConnected = true;  // Set isConnected flag
     }
 
-	/*public class SerialReader implements SerialPortEventListener {
-		/*private InputStream in;
+	public class SerialReader implements SerialPortEventListener {
+		private InputStream in;
 	    int dataIn, decimalPlaces = 0;
 		String buffer_string;
 		char lineID;
@@ -125,14 +127,14 @@ public class ArduinoConnection {
 
 		public SerialReader(InputStream in) {
 			this.in = in;
-		}*/
+		}
 
 		/************************************************************
 		* Name:    serialEvent
 		* Pre:     A serial connection has been established
 		* Post:    Data has been received and displayed on the graph
 		*************************************************************/
-		/*public void serialEvent(SerialPortEvent arg0) {
+		public void serialEvent(SerialPortEvent arg0) {
 			try {
 				while ((dataIn = in.read()) > -1) {
 					if (dataIn == '\n')
@@ -182,10 +184,10 @@ public class ArduinoConnection {
 				System.exit(-1);
 			}
 			}
-		}*/
+		}
 
 	public void printValue(char lineID, int pointVal) {
-		/*switch (lineID) {
+		switch (lineID) {
 		  case 'A':
 		    break;
 		  case 'B':
@@ -195,7 +197,7 @@ public class ArduinoConnection {
 		  case 'D':
 			  break;
 		}
-	    System.out.println("Line " + lineID + " has value " + pointVal);*/
+	    System.out.println("Line " + lineID + " has value " + pointVal);
 	}
 
 	
@@ -206,14 +208,15 @@ public class ArduinoConnection {
 	*          and isConnected is set to false
 	*************************************************************/
 	public static void disconnect(String portName) throws Exception {	
-		/*if (isConnected)
+		if (isConnected)
 		{
 			// preparing inStream and outStream to deactivate before close
 			serialPort.removeEventListener();
 			serialPort.close();
 			isConnected = false;
-		}*/
+		}
 	}
 
 }
+
 
