@@ -163,77 +163,145 @@ public class ArduinoConnection {
 
 						switch (state) {
 						case SERIES:
-							series = Integer.parseInt(buf.toString());
+							try {
+								series = Integer.parseInt(buf.toString());
+							}
+							catch(NumberFormatException ex){
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.TIMESTAMP;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + series);
+							
 							break;
+							
 						case TIMESTAMP:
-							timestamp = Integer.parseInt(buf.toString());
+							try {
+								timestamp = Integer.parseInt(buf.toString());
+							}
+							catch(NumberFormatException ex) {
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.DATA_POINT;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + timestamp);
+							
 							break;
+							
 						case DATA_POINT:
-							data_point = Double.parseDouble(buf.toString());
+							try {
+								data_point = Double.parseDouble(buf.toString());
+							}
+							catch(NumberFormatException ex) {
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.SERIES;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + data_point);
+							
 							break;
+							
 						case SERIES_NUM:
-							series_num = Integer.parseInt(buf.toString());
+							try {
+								series_num = Integer.parseInt(buf.toString());
+							}
+							catch(NumberFormatException ex) {
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.SERIES_NAME;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + series_num);
+							
 							break;
+							
 						case SERIES_NAME:
 							series_name = buf.toString();
 							state = State.SERIES;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + series_name);
+							
 							break;
+							
 						case SETTING_NUM:
-							setting_num = Integer.parseInt(buf.toString());
+							try {
+								setting_num = Integer.parseInt(buf.toString());
+							}
+							catch(NumberFormatException ex) {
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.SETTING_NAME;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out.println("Read value " + setting_num);
+							
 							break;
+							
 						case SETTING_NAME:
-							setting_name = buf.toString();
+							setting_name = buf.toString();					
 							state = State.SETTING_TYPE;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out
 										.println("Read value " + setting_name);
+							
 							break;
+							
 						case SETTING_TYPE:
-							setting_type = Integer.parseInt(buf.toString());
+							try {
+								setting_type = Integer.parseInt(buf.toString());
+							}
+							catch(NumberFormatException ex) {
+								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								break;
+							}
+							
 							state = State.SERIES;
+							
 							if (debug)
 								System.out.println("to " + state.toString());
 							if (debug)
 								System.out
 										.println("Read value " + setting_type);
+							
 							break;
+							
 						default:
 							state = State.SERIES;
+							
 							if (debug)
 								System.out.println("INVALID STATE");
 							if (debug)
 								System.out.println("to " + state.toString());
+							
 							break;
 						}
 
