@@ -153,6 +153,7 @@ public class ArduinoConnection {
 			this.state = State.SERIES;
 		}
 
+		// m_seriesList[0].AddDataPoint(double X, double Y)
 		/************************************************************
 		 * Name: serialEvent Pre: A serial connection has been established Post:
 		 * Data has been received and displayed on the graph
@@ -160,11 +161,10 @@ public class ArduinoConnection {
 		public void serialEvent(SerialPortEvent arg0) {
 			try {
 				while ((dataIn = in.read()) > -1) {
-					if (dataIn == '\n')
-						break;
+
 					data = (char) dataIn;
-					
-					buf.append(data);
+					if(data == '\n')
+						break;
 
 					if (debug)
 						System.out.println("Received: " + data);
@@ -180,6 +180,7 @@ public class ArduinoConnection {
 							}
 							catch(NumberFormatException ex){
 								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
+								if(debug) System.out.println("Failed data: " + buf.toString());
 								break;
 							}
 							
@@ -318,6 +319,9 @@ public class ArduinoConnection {
 						}
 
 						buf = new StringBuilder();
+					}
+					else {
+						buf.append(data);
 					}
 					/*
 					 * if (dataIn == '\n') break;

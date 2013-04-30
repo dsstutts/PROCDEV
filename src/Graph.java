@@ -45,7 +45,7 @@ public class Graph
 		m_graph.addTrace(m_seriesList[0].getTrace());
 		
 		m_seriesList[0].AddDataPoint(m_xStartPoint,m_yStartPoint);
-		m_seriesList[0].AddDataPoint(4,5);
+		
 	}
 
 	// Return the X-axis label
@@ -160,8 +160,8 @@ public class Graph
 		m_seriesList[m_numSeries] = new Series(Constants.DEF_SERIES_TITLES[m_numSeries], Constants.DEF_SERIES_COLORS[m_numSeries], true);
 		m_graph.addTrace(m_seriesList[m_numSeries].getTrace());
 		m_seriesList[m_numSeries].AddDataPoint(m_xStartPoint,m_yStartPoint);
-		Random random = new Random();
-		m_seriesList[m_numSeries].AddDataPoint(5,random.nextDouble()*10.0);
+		//Random random = new Random();
+		//m_seriesList[m_numSeries].AddDataPoint(5,random.nextDouble()*10.0);
 		m_numSeries++;
 	}
 	
