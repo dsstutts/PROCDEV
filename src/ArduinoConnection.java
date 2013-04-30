@@ -25,7 +25,7 @@ enum State {
 
 public class ArduinoConnection {
 	SerialReader sReader;
-	// static SerialPort serialPort;
+	static SerialPort serialPort;
 	String inputString;
 	static boolean isConnected = false;
 	static Vector<String> availableSerialPorts = new Vector<String>();
@@ -42,38 +42,40 @@ public class ArduinoConnection {
 	 *************************************************************/
 	@SuppressWarnings("unchecked")
 	public static void setAvailableSerialPorts() {
-		/*
-		 * // Empty our vector and remove all elements in our dropdown menu if
-		 * (!availableSerialPorts.isEmpty()) {
-		 * if(Toolbar.listSerialPorts_Dropdown.getItemCount() > 0) {
-		 * //Toolbar.listSerialPorts_Dropdown.setSelectedIndex(-1);
-		 * Toolbar.listSerialPorts_Dropdown.removeAllItems(); }
-		 * availableSerialPorts.clear(); }
-		 * 
-		 * 
-		 * // Add new elements to our dropdown menu
-		 * java.util.Enumeration<CommPortIdentifier> portEnum =
-		 * CommPortIdentifier.getPortIdentifiers(); while (
-		 * portEnum.hasMoreElements() ) { CommPortIdentifier portIdentifier =
-		 * portEnum.nextElement(); // Get connected ports if
-		 * (portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL) //
-		 * If it is a serial port {
-		 * //System.out.println(portIdentifier.getName());
-		 * availableSerialPorts.add(portIdentifier.getName());
-		 * 
-		 * 
-		 * // Add list of serial ports to dropdown
-		 * Toolbar.listSerialPorts_Dropdown.addItem(portIdentifier.getName()); }
-		 * }
-		 * 
-		 * 
-		 * // Change dropdown // Select 0th index automatically if there are
-		 * connected serial ports if (!availableSerialPorts.isEmpty()) {
-		 * StatusBar.statusbar.setText(Constants.DEF_STATUSBAR_MESSAGE);
-		 * Toolbar.listSerialPorts_Dropdown.setSelectedIndex(0); } else {
-		 * StatusBar
-		 * .statusbar.setText(Constants.DEF_WARNING_NO_CONNECTED_PORTS); }
-		 */
+		
+		// Empty our vector and remove all elements in our dropdown menu 
+		if(!availableSerialPorts.isEmpty()) {
+			if(Toolbar.listSerialPorts_Dropdown.getItemCount() > 0) {
+				//Toolbar.listSerialPorts_Dropdown.setSelectedIndex(-1);
+				Toolbar.listSerialPorts_Dropdown.removeAllItems(); 
+			}
+			availableSerialPorts.clear(); 
+		}
+		 
+		 
+		// Add new elements to our dropdown menu
+		java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers(); 
+		while (portEnum.hasMoreElements()) {
+			CommPortIdentifier portIdentifier =	portEnum.nextElement(); // Get connected ports
+			if(portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL) { //If it is a serial port 
+				//System.out.println(portIdentifier.getName());
+				availableSerialPorts.add(portIdentifier.getName());
+		 
+		 
+				// Add list of serial ports to dropdown
+				Toolbar.listSerialPorts_Dropdown.addItem(portIdentifier.getName());
+			}
+		}
+		 
+		 
+		// Change dropdown 
+		// Select 0th index automatically if there are connected serial ports 
+		if (!availableSerialPorts.isEmpty()) {
+			StatusBar.statusbar.setText(Constants.DEF_STATUSBAR_MESSAGE);
+			Toolbar.listSerialPorts_Dropdown.setSelectedIndex(0); 
+		} else {
+			StatusBar.statusbar.setText(Constants.DEF_WARNING_NO_CONNECTED_PORTS); 
+		}
 	}
 
 	/************************************************************
@@ -88,28 +90,33 @@ public class ArduinoConnection {
 		 
 		 // The port must be closed before being accessed 
 		 if ( portIdentifier.isCurrentlyOwned() ) {
-			 StatusBar.statusbar.setText(Constants.DEF_ERROR_PORT_IN_USE); return;
+			 StatusBar.statusbar.setText(Constants.DEF_ERROR_PORT_IN_USE); 
+			 return;
 		 }
 		 
-		 CommPort commPort =
-		 portIdentifier.open(this.getClass().getName(),2000);
+		 CommPort commPort = portIdentifier.open(this.getClass().getName(),2000);
 		 
 		 if ( ! (commPort instanceof SerialPort) ) {
-		 System.out.println("Error: You are not connected to a serial port.");
-		 return; }
+			 System.out.println("Error: You are not connected to a serial port.");
+			 return; 
+		 }
 		 
 		 serialPort = (SerialPort) commPort;
-		 serialPort.setSerialPortParams(Constants
-		 .DEF_BAUD_RATE,SerialPort.DATABITS_8
-		 ,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+		 serialPort.setSerialPortParams(
+				 Constants.DEF_BAUD_RATE,
+				 SerialPort.DATABITS_8,
+				 SerialPort.STOPBITS_1,
+				 SerialPort.PARITY_NONE
+			 );
 		 
-		 InputStream in = serialPort.getInputStream(); sReader = new
-		 SerialReader(in); serialPort.addEventListener(sReader);
-		 serialPort.notifyOnDataAvailable(true); isConnected = true; // Set
-		 isConnected flag
-		 }
+		 InputStream in = serialPort.getInputStream(); 
+		 sReader = new SerialReader(in); 
+		 serialPort.addEventListener(sReader);
+		 serialPort.notifyOnDataAvailable(true); 
+		 isConnected = true; // Set isConnected flag
+	}
 
-	public class SerialReader /* implements SerialPortEventListener */{
+	public class SerialReader implements SerialPortEventListener {
 		private InputStream in;
 		int decimalPlaces = 0;
 		char data;
@@ -141,7 +148,7 @@ public class ArduinoConnection {
 		 * Name: serialEvent Pre: A serial connection has been established Post:
 		 * Data has been received and displayed on the graph
 		 *************************************************************/
-		public void serialEvent(/* SerialPortEvent arg0 */) {
+		public void serialEvent(SerialPortEvent arg0) {
 			try {
 				while ((data = (char) in.read()) > -1) {
 					buf.append(data);
@@ -288,13 +295,13 @@ public class ArduinoConnection {
 	public static void disconnect(String portName) throws Exception {
 		if (isConnected) {
 			// preparing inStream and outStream to deactivate before close
-			// serialPort.removeEventListener();
-			// serialPort.close();
+			serialPort.removeEventListener();
+			serialPort.close();
 			isConnected = false;
 
-			// menuBar.connectionMenuItems[0].setEnabled(true); // connect
+			menuBar.connectionMenuItems[0].setEnabled(true); // connect
 			// button (menubar)
-			// menuBar.connectionMenuItems[1].setEnabled(false); // disconnect
+			menuBar.connectionMenuItems[1].setEnabled(false); // disconnect
 			// button (menubar)
 			StatusBar.statusbar.setText("");
 			// Change the icon for disconnecting in toolbar
