@@ -47,7 +47,7 @@ class ArduinoMain {
 		// Create and set up the window
 		myFrame = new JFrame(Constants.DEF_APP_TITLE);
 
-		// Create a menuBar, toolBar, settingsManager panel, and status bar
+		// Create a menuBar, toolBar, settingsManager panel, status bar, and graph
 		menuBar menuBar = new menuBar();
 		Toolbar toolBar = new Toolbar();
 		SettingsManager settingsManager = new SettingsManager();
@@ -73,7 +73,6 @@ class ArduinoMain {
 		myFrame.setVisible(true);
 		myFrame.getContentPane().setBackground(Constants.DEF_BACKGROUND_COLOR);
 		setCustomCloseOperation(); // Custom exit function
-	//	System.out.println(myGraph.getNumSeries());
 	}
 
 	/************************************************************

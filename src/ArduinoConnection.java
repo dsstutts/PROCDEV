@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
+ // Class: ArduinoConnection
+ // Desc: Includes all functionality for arduino communication
 public class ArduinoConnection {
 	SerialReader sReader;
 	static SerialPort serialPort;

@@ -7,20 +7,28 @@ import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
 import info.monitorenter.gui.chart.views.ChartPanel;
 import info.monitorenter.util.Range;
 
-
+// Class: Graph
+// Desc: Includes all functionality for creating a graph
 public class Graph
 {
 	private double m_time_increment; // By what value are we incrementing time
 	private String m_time_measurement; // Measurement of time in seconds or milliseconds
 	protected static ZoomableChart m_graph;
 	public Series m_seriesList[] = new Series[Constants.DEF_SERIES_TITLES.length];
-	private IAxis<?> m_x_axis;
-	private IAxis<?> m_y_axis;
-	private int m_numSeries = Constants.DEF_NUM_SERIES;
+	private IAxis<?> m_x_axis; // The x axis
+	private IAxis<?> m_y_axis; // The y axis
+	private int m_numSeries = Constants.DEF_NUM_SERIES; // Defaults to 1
 	protected double m_xStartPoint;
 	protected double m_yStartPoint;
 
-	// Only needs one constructor
+	/************************************************************
+	 * Name: Graph
+	 * desc: Initializes values for the graph
+	 * Pre: None
+	 * Post: Our graph is created with certain default values set
+	 *       such as 1 series, an x and y start point, time increment,
+	 *       and so forth
+	 *************************************************************/
 	public Graph()
 	{ 
 		m_seriesList[0] = new Series(Constants.DEF_SERIES_TITLES[0], Constants.DEF_SERIES_COLORS[0], true);
@@ -40,11 +48,13 @@ public class Graph
 		m_seriesList[0].AddDataPoint(4,5);
 	}
 
+	// Return the X-axis label
 	public String getXAxisLabel()
 	{
 		return m_x_axis.toString();
 	}
 
+	// Sets the X axis label
 	public void setXAxisLabel(String Label)
 	{
 		IAxis.AxisTitle title = new IAxis.AxisTitle(Label);
@@ -54,11 +64,13 @@ public class Graph
 		m_graph.updateUI();
 	}
 
+	// Return the Y-axis label
 	public String getYAxisLabel()
 	{
 		return m_y_axis.toString();
 	}
 
+	// Sets the y axis label
 	public void setYAxisLabel(String Label)
 	{
 		IAxis.AxisTitle title = new IAxis.AxisTitle(Label);
@@ -68,31 +80,37 @@ public class Graph
 		m_graph.updateUI();
 	}
 
+	// Gets the time increment
 	public double getTimeIncrement()
 	{
 		return m_time_increment;
 	}
 
+	// Sets the time increment
 	public void setTimeIncrement(double increment)
 	{
 		m_time_increment = increment;
 	}
 
+	// Gets the time measurement (s or ms)
 	public String getTimeMeasurement()
 	{
 		return m_time_measurement;
 	}
 
+	// Set the time measurement (s or ms)
 	public void setTimeMeasurement(String measurement)
 	{
 		m_time_measurement = measurement;
 	}
 	
+	// Set the number of series
 	public void setNumSeries(int numSeries)
 	{
 		 m_numSeries = numSeries;
 	}
 	
+	// Return the number of series
 	public int getNumSeries()
 	{
 		return m_numSeries;
@@ -107,12 +125,13 @@ public class Graph
 		return testPanel;
 	}
 	
-	
+	// Return the X start value
 	public double getXStartPoint()
 	{
 		return m_xStartPoint;
 	}
 
+	// Sets the X start value
 	public void setXStartPoint(double xStartPoint)
 	{
 		m_x_axis.setRangePolicy(new RangePolicyFixedViewport(new Range(xStartPoint, Double.MAX_VALUE)));
@@ -123,16 +142,19 @@ public class Graph
 		System.out.println(m_x_axis.getRange().getMin());
 	}
 
+	// Returns the Y start value
 	public double getYStartPoint()
 	{
 		return m_yStartPoint;
 	}
 
+	// Sets the Y start value
 	public void setYStartPoint(double yStartPoint)
 	{
 		m_yStartPoint = yStartPoint;
 	}
 	
+	// Add a new series to the graph
 	public void addSeries()
 	{
 		m_seriesList[m_numSeries] = new Series(Constants.DEF_SERIES_TITLES[m_numSeries], Constants.DEF_SERIES_COLORS[m_numSeries], true);
@@ -143,6 +165,7 @@ public class Graph
 		m_numSeries++;
 	}
 	
+	// Remove a series from the graph
 	public void removeSeries()
 	{
 		m_seriesList[m_numSeries - 1].setTitle("");
