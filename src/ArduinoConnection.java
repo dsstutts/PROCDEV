@@ -20,7 +20,8 @@ import java.util.Vector;
 // Desc: Includes all functionality for arduino communication
 
 enum State {
-	SERIES, TIMESTAMP, DATA_POINT, SERIES_NUM, SERIES_NAME, SETTING_NUM, SETTING_NAME, SETTING_TYPE,
+	SERIES, TIMESTAMP, DATA_POINT, SERIES_NUM,
+	SERIES_NAME, SETTING_NUM, SETTING_NAME, SETTING_TYPE,
 }
 
 public class ArduinoConnection {
@@ -37,9 +38,11 @@ public class ArduinoConnection {
 	}
 
 	/************************************************************
-	 * Name: listPorts Pre: None Post: Finds all available serial ports and
-	 * initializes vector availableSerialPorts
-	 *************************************************************/
+	* Name:    listPorts
+	* Pre:     None
+	* Post:    Finds all available serial ports and initializes vector
+	*          availableSerialPorts
+	*************************************************************/
 	@SuppressWarnings("unchecked")
 	public static void setAvailableSerialPorts() {
 		
@@ -79,35 +82,40 @@ public class ArduinoConnection {
 	}
 
 	/************************************************************
-	 * Name: connect Pre: There is an available serial port and the available
-	 * serial port connected to the device is selected from the dropdown menu
-	 * Post: A serial connection is established with the device
-	 *************************************************************/
+	* Name:    connect
+	* Pre:     There is an available serial port and the available
+	*          serial port connected to the device is selected from
+	*          the dropdown menu
+	* Post:    A serial connection is established with the device
+	*************************************************************/
 	void connect(String portName) throws Exception {
 		
-		 CommPortIdentifier portIdentifier =
-		 CommPortIdentifier.getPortIdentifier(portName);
+		 CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
 		 
 		 // The port must be closed before being accessed 
-		 if ( portIdentifier.isCurrentlyOwned() ) {
+		 if ( portIdentifier.isCurrentlyOwned() )
+		 {
 			 StatusBar.statusbar.setText(Constants.DEF_ERROR_PORT_IN_USE); 
 			 return;
 		 }
 		 
 		 CommPort commPort = portIdentifier.open(this.getClass().getName(),2000);
 		 
-		 if ( ! (commPort instanceof SerialPort) ) {
+		 if ( ! (commPort instanceof SerialPort) )
+		 {
 			 System.out.println("Error: You are not connected to a serial port.");
 			 return; 
 		 }
 		 
-		 serialPort = (SerialPort) commPort;
-		 serialPort.setSerialPortParams(
-				 Constants.DEF_BAUD_RATE,
-				 SerialPort.DATABITS_8,
-				 SerialPort.STOPBITS_1,
-				 SerialPort.PARITY_NONE
-			 );
+		 StatusBar.statusbar.setText("Receiving data...");
+	     menuBar.connectionMenuItems[0].setEnabled(false);
+	     menuBar.connectionMenuItems[1].setEnabled(true);
+	     Toolbar.buttons[1].setIcon(Toolbar.icons[2]);
+	     Toolbar.buttons[1].setToolTipText(Constants.DEF_BUTTON_LABELS[2]);
+		 
+	     serialPort = (SerialPort) commPort;
+	     serialPort.setSerialPortParams(Constants.DEF_BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+
 		 
 		 InputStream in = serialPort.getInputStream(); 
 		 sReader = new SerialReader(in); 
@@ -118,15 +126,16 @@ public class ArduinoConnection {
 
 	public class SerialReader implements SerialPortEventListener {
 		private InputStream in;
-		int decimalPlaces = 0;
-		char data;
+		int dataIn, decimalPlaces = 0;
 		StringBuilder buf = new StringBuilder();
 		char lineID;
 		float xValue, yValue, tempValue = 0;;
 		boolean decimalExists = false;
+		
 		static final boolean debug = true;
 
 		State state;
+		char data;
 		
 		int series;
 		int timestamp;
@@ -141,7 +150,7 @@ public class ArduinoConnection {
 
 		public SerialReader(InputStream in) {
 			this.in = in;
-			this.state = State.SERIES_NUM;
+			this.state = State.SERIES;
 		}
 
 		/************************************************************
@@ -150,16 +159,19 @@ public class ArduinoConnection {
 		 *************************************************************/
 		public void serialEvent(SerialPortEvent arg0) {
 			try {
-				while ((data = (char) in.read()) > -1) {
+				while ((dataIn = in.read()) > -1) {
+					if (dataIn == '\n')
+						break;
+					data = (char) dataIn;
+					
 					buf.append(data);
 
 					if (debug)
 						System.out.println("Received: " + data);
 
-					if (data == ',' || data == '\r' || data == '\n') {
+					if (data == ',' || data == '\r') {
 						if (debug)
-							System.out.println("Switching state from "
-									+ state.toString());
+							System.out.println("Switching state from "+ state.toString());
 
 						switch (state) {
 						case SERIES:
@@ -299,10 +311,8 @@ public class ArduinoConnection {
 			serialPort.close();
 			isConnected = false;
 
-			menuBar.connectionMenuItems[0].setEnabled(true); // connect
-			// button (menubar)
-			menuBar.connectionMenuItems[1].setEnabled(false); // disconnect
-			// button (menubar)
+			menuBar.connectionMenuItems[0].setEnabled(true); // connect button (menubar)
+			menuBar.connectionMenuItems[1].setEnabled(false); // disconnect button (menubar)
 			StatusBar.statusbar.setText("");
 			// Change the icon for disconnecting in toolbar
 			Toolbar.buttons[1].setIcon(Toolbar.icons[1]);
