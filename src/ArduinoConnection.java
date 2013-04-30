@@ -132,7 +132,7 @@ public class ArduinoConnection {
 		float xValue, yValue, tempValue = 0;;
 		boolean decimalExists = false;
 		
-		static final boolean debug = true;
+		static final boolean debug = false;
 
 		State state;
 		char data;
@@ -153,7 +153,6 @@ public class ArduinoConnection {
 			this.state = State.SERIES;
 		}
 
-		// m_seriesList[0].AddDataPoint(double X, double Y)
 		/************************************************************
 		 * Name: serialEvent Pre: A serial connection has been established Post:
 		 * Data has been received and displayed on the graph
@@ -212,6 +211,11 @@ public class ArduinoConnection {
 							break;
 							
 						case DATA_POINT:
+							if(data == ',') {
+								if(debug) System.out.println("Invalid data point, skipping...");
+								state = State.SERIES;
+								break;
+							}
 							try {
 								data_point = Double.parseDouble(buf.toString());
 							}
@@ -219,6 +223,10 @@ public class ArduinoConnection {
 								if(debug) System.out.println("Failed to parse data, staying in state " + state.toString());
 								break;
 							}
+							
+							if(debug) System.out.println("Data point: " + series + " " + ((double)timestamp)/1000 + " " + data_point);
+							//TODO: Breaks if 'series' isn't a valid series 
+							ArduinoMain.myGraph.m_seriesList[series].AddDataPoint(((double)timestamp)/1000 ,data_point);
 							
 							state = State.SERIES;
 							
@@ -248,6 +256,11 @@ public class ArduinoConnection {
 							break;
 							
 						case SERIES_NAME:
+							if(data == ',') {
+								if(debug) System.out.println("Invalid Series data, skipping...");
+								state = State.SERIES;
+								break;
+							}
 							series_name = buf.toString();
 							state = State.SERIES;
 							
@@ -289,6 +302,11 @@ public class ArduinoConnection {
 							break;
 							
 						case SETTING_TYPE:
+							if(data == ',') {
+								if(debug) System.out.println("Invalid setting data, skippping...");
+								state = State.SERIES;
+								break;
+							}
 							try {
 								setting_type = Integer.parseInt(buf.toString());
 							}
@@ -323,32 +341,6 @@ public class ArduinoConnection {
 					else {
 						buf.append(data);
 					}
-					/*
-					 * if (dataIn == '\n') break;
-					 * 
-					 * if (Character.isDigit((char) dataIn)) { if (tempValue !=
-					 * 0) tempValue *= 10;
-					 * 
-					 * tempValue += Character.getNumericValue((char) dataIn);
-					 * 
-					 * if (decimalExists) decimalPlaces++; }
-					 * 
-					 * else if ((char) dataIn == '.') { decimalExists = true; }
-					 * 
-					 * else if ((char) dataIn == ',') { xValue = tempValue; //
-					 * Store the value of X for (int i = 0; i < decimalPlaces;
-					 * i++) xValue /= 10; tempValue = 0; decimalExists = false;
-					 * decimalPlaces = 0; }
-					 * 
-					 * else if (Character.isLetter((char) dataIn)) { yValue =
-					 * tempValue; // Store the value of Y for (int i = 0; i <
-					 * decimalPlaces; i++) yValue /= 10;
-					 * 
-					 * decimalExists = false; lineID = (char) dataIn;
-					 * System.out.println("(" + xValue + ", " + yValue +
-					 * ") from sensor " + lineID); tempValue = 0; decimalPlaces
-					 * = 0; }
-					 */
 				}
 
 			} catch (IOException e) {
