@@ -120,14 +120,14 @@ public class ArduinoConnection {
 		private InputStream in;
 		int decimalPlaces = 0;
 		char data;
-		StringBuilder buf;
+		StringBuilder buf = new StringBuilder();
 		char lineID;
 		float xValue, yValue, tempValue = 0;;
 		boolean decimalExists = false;
 		static final boolean debug = true;
 
 		State state;
-
+		
 		int series;
 		int timestamp;
 		double data_point;
