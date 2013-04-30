@@ -2,6 +2,7 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.IAxis;
+import info.monitorenter.gui.chart.ZoomableChart;
 import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
 import info.monitorenter.gui.chart.views.ChartPanel;
 import info.monitorenter.util.Range;
@@ -11,7 +12,7 @@ public class Graph
 {
 	private double m_time_increment; // By what value are we incrementing time
 	private String m_time_measurement; // Measurement of time in seconds or milliseconds
-	protected static Chart2D m_graph;
+	protected static ZoomableChart m_graph;
 	public Series m_seriesList[] = new Series[Constants.DEF_SERIES_TITLES.length];
 	private IAxis<?> m_x_axis;
 	private IAxis<?> m_y_axis;
@@ -23,9 +24,7 @@ public class Graph
 	public Graph()
 	{ 
 		m_seriesList[0] = new Series(Constants.DEF_SERIES_TITLES[0], Constants.DEF_SERIES_COLORS[0], true);
-		m_graph = new Chart2D();
-		
-		// How to set the title of a graph?
+		m_graph = new ZoomableChart();
 		m_x_axis = m_graph.getAxisX();
 		m_y_axis = m_graph.getAxisY();		
 		setXAxisLabel(Constants.DEF_XAXIS_LABEL);
@@ -41,19 +40,6 @@ public class Graph
 		m_seriesList[0].AddDataPoint(4,5);
 	}
 
-
-	/*
-	// The graph title should be placed above the graph, not in a separate window
-	public void setGraphTitle(String Title)
-	{
-		//m_frame.setTitle(Title);
-	}
-
-	public String getGraphTitle()
-	{
-		//return m_frame.getTitle();
-	}
-*/
 	public String getXAxisLabel()
 	{
 		return m_x_axis.toString();
@@ -159,6 +145,7 @@ public class Graph
 	
 	public void removeSeries()
 	{
+		m_seriesList[m_numSeries - 1].setTitle("");
 		m_graph.removeTrace(m_seriesList[m_numSeries -1].getTrace());//m_seriesList[m_numSeries -1].removeTrace(); // remove the object
 		m_seriesList[m_numSeries -1].removeTrace();
 		m_numSeries--;

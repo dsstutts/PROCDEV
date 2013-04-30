@@ -33,8 +33,7 @@ class ArduinoMain {
 				UIManager.put("swing.boldMetal", Boolean.FALSE);
 				createAndShowGUI();
 			}
-		});
-		
+		});	
 	}
 
 	/************************************************************
@@ -100,10 +99,8 @@ class ArduinoMain {
 		// Close the connection if connection exists
 		if (ArduinoConnection.isConnected) {
 			try {
-				//TODO: Need to change this
 				ArduinoConnection.disconnect(ArduinoConnection.selectedSerialPort);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -111,3 +108,4 @@ class ArduinoMain {
 		System.exit(0);
 	}
 }
+

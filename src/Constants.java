@@ -17,12 +17,12 @@ class Constants {
 	public static final Color  DEF_BACKGROUND_COLOR = Color.white;
 
 	/******************************* Menu Bar Constants **************************/
-	public static final String[] DEF_MENUS = { "File", "Edit", "View", "Settings", "Help" };
+	public static final String[] DEF_MENUS = { "File", "View", "Connections", "Help" };
 
-	public static final String[] DEF_FILE_MENU_ITEMS = {"New","Open","Close","Save","Save As","Print",
+	public static final String[] DEF_FILE_MENU_ITEMS = {//"New","Open","Close","Save","Save As","Print",
 		"Export to CSV", "Exit" };
-	public static final String[] DEF_FILE_MENU_ICONS = { "resources/new.png", "resources/open.png", "resources/Delete.png",
-													"resources/save.png", "resources/save.png", "resources/Print.png",
+	public static final String[] DEF_FILE_MENU_ICONS = {// "resources/new.png", "resources/open.png", "resources/Delete.png",
+												//	"resources/save.png", "resources/save.png", "resources/Print.png",
 													"resources/Go forward.png", "resources/Exit.png"};
 
 	public static final String[] DEF_EDIT_MENU_ITEMS = {};
@@ -35,6 +35,10 @@ class Constants {
 	public static final String[] DEF_SETTINGS_MENU_ITEMS = {"Graph settings"};
 	public static final String[] DEF_SETTINGS_MENU_ICONS = {"resources/settings.png"};
 	
+	public static final String[] DEF_CONNECTION_MENU_ITEMS = {"Connect", "Disconnect"};
+	public static final String[] DEF_CONNECTION_MENU_ICONS = {"resources/start.png", "resources/stop.png"};
+	
+	
 	public static final String[] DEF_HELP_MENU_ITEMS = {"About"};
 	public static final String[] DEF_HELP_MENU_ICONS = {"resources/Help book 3d.png"};
 	
@@ -44,12 +48,16 @@ class Constants {
 	public static final String   DEF_ERROR_PORT_IN_USE ="Error: Port is currently in use. Disconnect usb cable from the COM port and try again.";
 	
 	/********************************* Toolbar Constants *************************/
-	public static final String[] DEF_ICON_FILES = { "resources/new.png", "resources/open.png", "resources/save.png",
-												"resources/saveAs.png", "resources/Print.png", "resources/settings.png",
-												"resources/start.png", "resources/stop.png",
+	public static final String[] DEF_ICON_FILES = { 
+												//"resources/new.png", "resources/open.png", "resources/save.png",
+												//"resources/saveAs.png", "resources/Print.png", "resources/settings.png",
+												"resources/Go forward.png", "resources/start.png", "resources/stop.png",
 												"resources/Help book 3d.png", "resources/Refresh.png",};
-	public static final String[] DEF_BUTTON_LABELS = { "New", "Open", "Save", "Save as", "Print", "Settings",
-												"Start", "Stop", "About","Rescan serial ports" };
+	
+	public static final String[] DEF_BUTTON_LABELS = { //"New", "Open", "Save", "Save as", "Print", "Settings",
+												"Export to CSV", "Start", "Stop", "About","Rescan serial ports" };
+	
+	
 	public static final boolean  DEF_TOOLBAR_MOVABLE = false;
 	public static final String   DEF_TOOLBAR_ABOUT_MESSAGE = "Troika Animated Graphing Software is an open source project intended to \n" +
 															"serve as an easier alternative than using the command-line interface. \n\n" +
@@ -58,7 +66,6 @@ class Constants {
 															"Icons:  www.aha-soft.com";
 	
 	/********************************* Graph Constants ****************************/
-	public static final String   DEF_GRAPH_TITLE = "Title";
 	public static final String   DEF_XAXIS_LABEL = "Time";
 	public static final String   DEF_YAXIS_LABEL = "Amplitude";
 	public static final double   DEF_X_START_VALUE = 0;
@@ -77,15 +84,9 @@ class Constants {
 
 	/************************ Settings Manager Constants *************************/
 	public static final int      DEF_SETTINGSMANAGER_TEXTBOX_WIDTH = 10; // Default width of each text box	
-	public static final String[] DEF_SETTINGSMANAGER_LABELS = { // Labels
-		"X Axis Label: ",  
-		//"Graph Title: ",
-		"Y Axis Label: ",
-		"X Start Value: ", 
-		"Y Start Value: ", 
-		"Time Increment: ",
-	};
-	public static final Object[] DEF_SETTINGSMANAGER_FIELDS = {DEF_GRAPH_TITLE, DEF_XAXIS_LABEL, // Text fields
+	public static final String[] DEF_SETTINGSMANAGER_LABELS = {"X Axis Label: ",  // Labels
+		"Y Axis Label: ", "X Start Value: ", "Y Start Value: ", "Time Increment: "};
+	public static final Object[] DEF_SETTINGSMANAGER_FIELDS = {DEF_XAXIS_LABEL, // Text fields
 		DEF_YAXIS_LABEL, DEF_X_START_VALUE, DEF_Y_START_VALUE, DEF_TIME_INCREMENT};
 	public static final Color    DEF_SETTINGSMANAGER_BACKGROUNDCOLOR = new Color(220, 220, 244);
 	public static final String[] DEF_TIMEMEASUREMENT_BOXITEMS = {"s","ms"};

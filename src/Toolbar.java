@@ -5,6 +5,7 @@
  *************************************************************/
 
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -16,8 +17,8 @@ import javax.swing.JToolBar;
 
 public class Toolbar implements ActionListener {
 	JToolBar toolBar = new JToolBar();
-	ImageIcon[] icons = new ImageIcon[Constants.DEF_ICON_FILES.length];
-	JButton[] buttons = new JButton[Constants.DEF_BUTTON_LABELS.length];
+	static ImageIcon[] icons = new ImageIcon[Constants.DEF_ICON_FILES.length];
+	static JButton[] buttons = new JButton[Constants.DEF_BUTTON_LABELS.length];
 	@SuppressWarnings("rawtypes")
 	static JComboBox listSerialPorts_Dropdown;
 
@@ -30,9 +31,7 @@ public class Toolbar implements ActionListener {
 	@SuppressWarnings("rawtypes")
 	JToolBar createToolBar()
 	{
-		// Set the layout for the toolbar
-		//toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+
 		// Add toolbar buttons onto the toolbar
 		for (int i = 0; i < Constants.DEF_BUTTON_LABELS.length; ++i) {
 			icons[i] = new ImageIcon(Constants.DEF_ICON_FILES[i]);
@@ -45,17 +44,17 @@ public class Toolbar implements ActionListener {
 			//toolBar.add(Box.createHorizontalGlue());
 		
 			// We are not adding a separate button for disconnecting
-			if (i != 7)
+			if (i != 2)
 				toolBar.add(buttons[i]);
 			
-			if (i == 5 || i == 8)
+			if (i == 0)
 			{
 				toolBar.addSeparator();
 				toolBar.addSeparator();
 			}
 			
 			// Create our listSerialPorts_Dropdown menu
-			if (i == 8)
+			if (i == 3)
 			{
 				StatusBar.statusbar = new JLabel();
 				listSerialPorts_Dropdown = new JComboBox();
@@ -63,6 +62,7 @@ public class Toolbar implements ActionListener {
 				// Get the list of connected serial ports
 				ArduinoConnection.setAvailableSerialPorts();
 				listSerialPorts_Dropdown.setToolTipText("Select serial port");
+				//listSerialPorts_Dropdown.setMaximumSize(new Dimension(200, 50));
 				toolBar.add(listSerialPorts_Dropdown);
 			}
 
@@ -79,7 +79,7 @@ public class Toolbar implements ActionListener {
 	* Post:    Proposed action was performed
 	*************************************************************/
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == buttons[0]) {
+		/*if (event.getSource() == buttons[0]) {
 			System.out.println("You Pressed New!");
 		} else if (event.getSource() == buttons[1]) {
 			System.out.println("You Pressed Open!");
@@ -95,9 +95,13 @@ public class Toolbar implements ActionListener {
 		}else if (event.getSource() == buttons[5]) {
 			System.out.println("You Pressed Settings!");
 		}
-
-		// Buttons 6 & 7: Connecting to device
-		else if (event.getSource() == buttons[6]) {
+*/
+		if (event.getSource() == buttons[0]) {
+			System.out.println("You Pressed Export!");
+		}
+			
+		// Buttons 1 & 2: Connecting to the device
+		else if (event.getSource() == buttons[1]) {
 			if (ArduinoConnection.isConnected == false) // We are not connected
 			{
 				if (ArduinoConnection.availableSerialPorts.size() != 0) // We can connect to a serial port
@@ -114,10 +118,7 @@ public class Toolbar implements ActionListener {
 						
 						e.printStackTrace();
 					}
-					StatusBar.statusbar.setText("Receiving data...");
-					// Change the icon for disconnecting
-					buttons[6].setIcon(icons[7]);
-					buttons[6].setToolTipText(Constants.DEF_BUTTON_LABELS[7]);
+
 				}
 			else {
 					StatusBar.statusbar.setText("Error: No serial ports are available");
@@ -131,19 +132,16 @@ public class Toolbar implements ActionListener {
 					
 					e.printStackTrace();
 				}
-				StatusBar.statusbar.setText("");
-				// Change the icon for disconnecting
-				buttons[6].setIcon(icons[6]);
-				buttons[6].setToolTipText(Constants.DEF_BUTTON_LABELS[6]);
+				
 			}
 		}
 		// Help
-		else if (event.getSource() == buttons[8]) {
+		else if (event.getSource() == buttons[3]) {
 			JOptionPane.showMessageDialog(ArduinoMain.myFrame, Constants.DEF_TOOLBAR_ABOUT_MESSAGE,"About",JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		// Refresh serial ports list
-		else if (event.getSource() == buttons[9]) {
+		else if (event.getSource() == buttons[4]) {
 			ArduinoConnection.setAvailableSerialPorts();
 		}
 

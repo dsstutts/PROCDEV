@@ -107,6 +107,13 @@ public class ArduinoConnection {
             return;
         }
         
+        StatusBar.statusbar.setText("Receiving data...");
+        menuBar.connectionMenuItems[0].setEnabled(false);
+        menuBar.connectionMenuItems[1].setEnabled(true);
+        Toolbar.buttons[1].setIcon(Toolbar.icons[2]);
+		Toolbar.buttons[1].setToolTipText(Constants.DEF_BUTTON_LABELS[2]);
+        
+        
         serialPort = (SerialPort) commPort;
         serialPort.setSerialPortParams(Constants.DEF_BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 
@@ -214,6 +221,13 @@ public class ArduinoConnection {
 			serialPort.removeEventListener();
 			serialPort.close();
 			isConnected = false;
+	        
+			menuBar.connectionMenuItems[0].setEnabled(true); // connect button (menubar)
+	        menuBar.connectionMenuItems[1].setEnabled(false); // disconnect button (menubar)
+	        StatusBar.statusbar.setText("");
+			// Change the icon for disconnecting in toolbar
+			Toolbar.buttons[1].setIcon(Toolbar.icons[1]);
+			Toolbar.buttons[1].setToolTipText(Constants.DEF_BUTTON_LABELS[1]);
 		}
 	}
 

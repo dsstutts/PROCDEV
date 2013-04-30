@@ -13,6 +13,7 @@ public class menuBar  implements ActionListener{
 	JMenuItem editMenuItems[] = new JMenuItem[Constants.DEF_EDIT_MENU_ITEMS.length];
 	JCheckBoxMenuItem viewMenuItems[] = new JCheckBoxMenuItem[Constants.DEF_VIEW_MENU_ITEMS.length];
 	JMenuItem settingsMenuItems[] = new JMenuItem[Constants.DEF_SETTINGS_MENU_ITEMS.length];
+	static JMenuItem connectionMenuItems[] = new JMenuItem[Constants.DEF_CONNECTION_MENU_ITEMS.length];
 	JMenuItem helpMenuItems[] = new JMenuItem[Constants.DEF_HELP_MENU_ITEMS.length];
 	
 	/************************************************************
@@ -42,21 +43,21 @@ public class menuBar  implements ActionListener{
 			}
 		}
 		
-		// EDIT menu - Add menu items to the edit menu
+		/* EDIT menu - Add menu items to the edit menu
 		for (int i = 0; i < Constants.DEF_EDIT_MENU_ITEMS.length; i++)
 		{
 			editMenuItems[i] = new JMenuItem(Constants.DEF_EDIT_MENU_ITEMS[i], new ImageIcon(Constants.DEF_EDIT_MENU_ICONS[i]));
 			menus[1].add(editMenuItems[i]);	
 		}
-		
+		*/
 		// VIEW menu - Add menu items to the view menu
 		for (int i = 0; i < Constants.DEF_VIEW_MENU_ITEMS.length; i++)
 		{
 			viewMenuItems[i] = new JCheckBoxMenuItem(Constants.DEF_VIEW_MENU_ITEMS[i], Constants.DEF_VIEW_MENU_STATE);
 			viewMenuItems[i].addActionListener(this);
-			menus[2].add(viewMenuItems[i]);
+			menus[1].add(viewMenuItems[i]);
 		}
-		
+		/*
 		// SETTINGS menu - Add menu items to the settings menu
 		for (int i = 0; i < Constants.DEF_SETTINGS_MENU_ITEMS.length; i++)
 		{
@@ -64,13 +65,23 @@ public class menuBar  implements ActionListener{
 			settingsMenuItems[i].addActionListener(this);
 			menus[3].add(settingsMenuItems[i]);
 		}
+		*/
 		
+		// Connection menu - Add menu items to the connection menu
+		for (int i = 0; i < Constants.DEF_CONNECTION_MENU_ITEMS.length; i++)
+		{
+			connectionMenuItems[i] = new JMenuItem(Constants.DEF_CONNECTION_MENU_ITEMS[i], new ImageIcon(Constants.DEF_CONNECTION_MENU_ICONS[i]));
+			connectionMenuItems[i].addActionListener(this);
+			menus[2].add(connectionMenuItems[i]);
+		}
+		connectionMenuItems[1].setEnabled(false); // Disable disconnect
+
 		// HELP menu - Add menu items to the help menu
 		for (int i = 0; i < Constants.DEF_HELP_MENU_ITEMS.length; i++)
 		{
 			helpMenuItems[i] = new JMenuItem(Constants.DEF_HELP_MENU_ITEMS[i], new ImageIcon(Constants.DEF_HELP_MENU_ICONS[i]));
 			helpMenuItems[i].addActionListener(this);
-			menus[4].add(helpMenuItems[i]);
+			menus[3].add(helpMenuItems[i]);
 		}
 		return bar;
 	}
@@ -83,11 +94,11 @@ public class menuBar  implements ActionListener{
 	*************************************************************/
 	public void actionPerformed(ActionEvent event) {	
 		// File Menu
-		if (event.getSource() == fileMenuItems[0]) // New
+		if (event.getSource() == fileMenuItems[0])
 		{
-			System.out.println("You Pressed New");
+			System.out.println("export to CSV");
 		}
-		else if (event.getSource() == fileMenuItems[1])
+		/*else if (event.getSource() == fileMenuItems[1])
 		{
 			System.out.println("You Pressed Open");
 		}
@@ -110,8 +121,8 @@ public class menuBar  implements ActionListener{
 		else if (event.getSource() == fileMenuItems[6])
 		{
 			System.out.println("You Pressed Export");
-		}
-		else if (event.getSource() == fileMenuItems[7]) // Exit
+		}*/
+		else if (event.getSource() == fileMenuItems[1]) // Exit
 		{
 			ArduinoMain.exitApplication();
 		}
@@ -140,11 +151,41 @@ public class menuBar  implements ActionListener{
 				ArduinoMain.myStatusbar.setVisible(false);
 		}
 		
+		// Connection Menu
+		else if (event.getSource() == connectionMenuItems[0])
+		{
+			if (ArduinoConnection.availableSerialPorts.size() != 0) // We can connect to a serial port
+			{
+				// Establish a connection to the serial port
+				ArduinoConnection myArduino = new ArduinoConnection();
+				try {
+					// Set selected serial port
+					ArduinoConnection.selectedSerialPort =(String)Toolbar.listSerialPorts_Dropdown.getSelectedItem();
+					
+					// Connect to selected serial port
+					myArduino.connect(ArduinoConnection.selectedSerialPort);
+				} catch (Exception e) {	e.printStackTrace(); }
+			}
+			else {
+				StatusBar.statusbar.setText("Error: No serial ports are available");
+			}
+		}
+		else if (event.getSource() == connectionMenuItems[1])
+		{
+			try {
+				ArduinoConnection.disconnect(ArduinoConnection.selectedSerialPort);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 		// Settings Menu
-		else if (event.getSource() == settingsMenuItems[0])
+		/*else if (event.getSource() == settingsMenuItems[0])
 		{
 			System.out.println("Pressed Settings");
-		}
+		}*/
+		
 		
 		// Help Menu - Used to provide information about product
 		else if (event.getSource() == helpMenuItems[0]) // About
