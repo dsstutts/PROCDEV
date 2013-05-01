@@ -6,6 +6,7 @@
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.io.IOException;
 public class menuBar  implements ActionListener{
 	JMenuBar bar = new JMenuBar();
 	JMenu menus[] = new JMenu[Constants.DEF_MENUS.length];
@@ -96,7 +97,13 @@ public class menuBar  implements ActionListener{
 		// File Menu
 		if (event.getSource() == fileMenuItems[0])
 		{
-			System.out.println("export to CSV");
+			CSVExporter exporter = new CSVExporter(ArduinoMain.myGraph.m_seriesList);
+			try {
+				exporter.export("file.csv");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		/*else if (event.getSource() == fileMenuItems[1])
 		{

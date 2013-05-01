@@ -1,5 +1,4 @@
 import info.monitorenter.gui.chart.ITrace2D;
-import info.monitorenter.gui.chart.TracePoint2D;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
 
 import java.awt.Color;
@@ -7,11 +6,12 @@ import java.util.Vector;
 
 public class Series
 {
-	protected Vector<TracePoint2D> m_data;
+	protected Vector<Point> m_data;
 	private ITrace2D m_trace;
 
 	public Series(String title, Color color, boolean isVisible)
 	{
+		m_data = new Vector<Point>();
 		m_trace = new Trace2DSimple();
 		m_trace.setName(title);
 		m_trace.setColor(color);
@@ -67,6 +67,7 @@ public class Series
 	public void AddDataPoint(double X, double Y)
 	{
 		m_trace.addPoint(X,Y);
+		m_data.add(new Point(X,Y));
 	}
 }
 
