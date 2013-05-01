@@ -69,5 +69,6 @@ public class Series
 		m_trace.addPoint(X,Y);
 		m_data.add(new Point(X,Y));
 	}
+
 }
 

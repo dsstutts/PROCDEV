@@ -96,6 +96,8 @@ public class menuBar  implements ActionListener{
 	*************************************************************/
 	public void actionPerformed(ActionEvent event) {	
 		// File Menu
+		
+		// Export
 		if (event.getSource() == fileMenuItems[0])
 		{
 			JFileChooser fc = new JFileChooser();

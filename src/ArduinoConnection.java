@@ -12,6 +12,8 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
+import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
@@ -89,10 +91,12 @@ public class ArduinoConnection {
 	* Post:    A serial connection is established with the device
 	*************************************************************/
 	void connect(String portName) throws Exception {
-		
 		 CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
 		 
+//		 ArduinoMain.myGraph.m_x_axis.setRangePolicy(new RangePolicyFixedViewport(ArduinoMain.myGraph.m_x_axis.getMin(), 4     );
+		 //  ArduinoMain.myGraph.m_x_axis.setRangePolicy();
 		 // The port must be closed before being accessed 
+		 
 		 if ( portIdentifier.isCurrentlyOwned() )
 		 {
 			 StatusBar.statusbar.setText(Constants.DEF_ERROR_PORT_IN_USE); 

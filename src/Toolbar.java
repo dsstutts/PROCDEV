@@ -8,9 +8,13 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
@@ -96,8 +100,21 @@ public class Toolbar implements ActionListener {
 			System.out.println("You Pressed Settings!");
 		}
 */
+		
+		// Export
 		if (event.getSource() == buttons[0]) {
-			System.out.println("You Pressed Export!");
+			JFileChooser fc = new JFileChooser();
+			int ret = fc.showSaveDialog(null);
+			if (ret == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				CSVExporter exporter = new CSVExporter(ArduinoMain.myGraph.m_seriesList);
+				try {
+					exporter.export(file.getPath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 			
 		// Buttons 1 & 2: Connecting to the device

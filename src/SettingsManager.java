@@ -42,8 +42,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 
 	JLabel header = new JLabel("Graph Settings:");
 	JLabel timeMeasurementLabel = new JLabel("Time Measurement: ");
-	JComboBox timeMeasurement_Dropdown = new JComboBox(
-			Constants.DEF_TIMEMEASUREMENT_BOXITEMS);
+	JComboBox timeMeasurement_Dropdown = new JComboBox(Constants.DEF_TIMEMEASUREMENT_BOXITEMS);
 	Font labelFont = new Font("Times New Roman", Font.BOLD, 14);
 	Font headerFont = new Font("Serif", Font.BOLD, 16);
 
@@ -152,7 +151,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 			gridConstraints.gridx++;
 
 			// Series change Title
-			seriesFields[i] = new JFormattedTextField(Constants.DEF_SERIES_TITLES[i]);
+			seriesFields[i] = new JFormattedTextField("");
 			seriesFields[i].setColumns(Constants.DEF_SETTINGSMANAGER_TEXTBOX_WIDTH);
 			seriesFields[i].addPropertyChangeListener("value", this);
 			seriesPanel.add(seriesFields[i], gridConstraints);
@@ -251,7 +250,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 			}
 			seriesLabels[numSeries-1].setVisible(false); // This does not change
 		
-			seriesFields[numSeries - 1].setText(Constants.DEF_SERIES_TITLES[numSeries-1]);
+			seriesFields[numSeries - 1].setText("");
 			seriesFields[numSeries-1].setVisible(false);
 			
 			seriesColorButton[numSeries-1].setVisible(false);
@@ -372,30 +371,31 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 	public void propertyChange(PropertyChangeEvent e) {
 		Object source = e.getSource();
 
-		// Change graph title
-		if (source == settingsManagerFields[0]) {
-			//TODO:
-			System.out.println("Changed graph title");
-		}
 		// Change x axis label
-		else if (source == settingsManagerFields[1]) {
-			ArduinoMain.myGraph.setXAxisLabel((String) settingsManagerFields[1].getValue());	
+		if (source == settingsManagerFields[0]) {
+			ArduinoMain.myGraph.setXAxisLabel((String) settingsManagerFields[0].getValue());	
 		}
 		// Change y axis label
-		else if (source == settingsManagerFields[2]) {
-			ArduinoMain.myGraph.setYAxisLabel((String) settingsManagerFields[2].getValue());
+		else if (source == settingsManagerFields[1]) {
+			ArduinoMain.myGraph.setYAxisLabel((String) settingsManagerFields[1].getValue());
 		}
 		// Change x start value
-		else if (source == settingsManagerFields[3]) {
-			ArduinoMain.myGraph.setXStartPoint((Double)settingsManagerFields[3].getValue());
+		else if (source == settingsManagerFields[2]) {
+			ArduinoMain.myGraph.setXStartPoint((Double)settingsManagerFields[2].getValue());
 		}
 		// Change Y start value
-		else if (source == settingsManagerFields[4]) {
-			ArduinoMain.myGraph.setYStartPoint((Double)settingsManagerFields[4].getValue());
+		else if (source == settingsManagerFields[3]) {
+			ArduinoMain.myGraph.setYStartPoint((Double)settingsManagerFields[3].getValue());
 		}
 		// Change time increment
-		else if (source == settingsManagerFields[5]) {
-			ArduinoMain.myGraph.setTimeIncrement((Double)settingsManagerFields[5].getValue());
+		else if (source == settingsManagerFields[4]) {
+			// time increment cannot be <= 0!
+			if ( (Double)settingsManagerFields[4].getValue() <= 0 )
+			{
+				StatusBar.statusbar.setText("Error: The time increment cannot be less than or equal to zero.");
+				settingsManagerFields[4].setValue(Constants.DEF_TIME_INCREMENT);
+			}
+			ArduinoMain.myGraph.setTimeIncrement((Double)settingsManagerFields[4].getValue());
 		}
 		// Series Titles
 		else if (source == seriesFields[0]) {

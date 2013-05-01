@@ -23,7 +23,7 @@ class Constants {
 		"Export to CSV", "Exit" };
 	public static final String[] DEF_FILE_MENU_ICONS = {// "resources/new.png", "resources/open.png", "resources/Delete.png",
 												//	"resources/save.png", "resources/save.png", "resources/Print.png",
-													"resources/Go forward.png", "resources/Exit.png"};
+													"resources/save.png", "resources/Exit.png"};
 
 	public static final String[] DEF_EDIT_MENU_ITEMS = {};
 	public static final String[] DEF_EDIT_MENU_ICONS = {};
@@ -51,7 +51,7 @@ class Constants {
 	public static final String[] DEF_ICON_FILES = { 
 												//"resources/new.png", "resources/open.png", "resources/save.png",
 												//"resources/saveAs.png", "resources/Print.png", "resources/settings.png",
-												"resources/Go forward.png", "resources/start.png", "resources/stop.png",
+												"resources/save.png", "resources/start.png", "resources/stop.png",
 												"resources/Help book 3d.png", "resources/Refresh.png",};
 	
 	public static final String[] DEF_BUTTON_LABELS = { //"New", "Open", "Save", "Save as", "Print", "Settings",

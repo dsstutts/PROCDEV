@@ -15,7 +15,7 @@ public class Graph
 	private String m_time_measurement; // Measurement of time in seconds or milliseconds
 	protected static ZoomableChart m_graph;
 	public Series m_seriesList[] = new Series[Constants.DEF_SERIES_TITLES.length];
-	private IAxis<?> m_x_axis; // The x axis
+	IAxis<?> m_x_axis; // The x axis
 	private IAxis<?> m_y_axis; // The y axis
 	private int m_numSeries = Constants.DEF_NUM_SERIES; // Defaults to 1
 	protected double m_xStartPoint;
@@ -43,8 +43,6 @@ public class Graph
 		m_time_increment = Constants.DEF_TIME_INCREMENT;
 		m_time_measurement = Constants.DEF_TIME_MEASUREMENT[0]; // default is measuring in seconds
 		m_graph.addTrace(m_seriesList[0].getTrace());
-		
-		m_seriesList[0].AddDataPoint(m_xStartPoint,m_yStartPoint);
 		
 	}
 
@@ -134,12 +132,12 @@ public class Graph
 	// Sets the X start value
 	public void setXStartPoint(double xStartPoint)
 	{
-		m_x_axis.setRangePolicy(new RangePolicyFixedViewport(new Range(xStartPoint, Double.MAX_VALUE)));
-		m_xStartPoint = xStartPoint;
-		
+		//m_x_axis.setRangePolicy(new RangePolicyFixedViewport(new Range(xStartPoint, xStartPoint + 10 )));
+		//m_x_axis.setRange(m_x_axis.getRange());
+		m_xStartPoint = xStartPoint;	
 		m_graph.updateUI();
 		
-		System.out.println(m_x_axis.getRange().getMin());
+		//System.out.println(m_x_axis.getRange().getMin());
 	}
 
 	// Returns the Y start value
@@ -151,7 +149,9 @@ public class Graph
 	// Sets the Y start value
 	public void setYStartPoint(double yStartPoint)
 	{
+		//m_y_axis.setRangePolicy(new RangePolicyFixedViewport(new Range(yStartPoint, yStartPoint + 10)));
 		m_yStartPoint = yStartPoint;
+		m_graph.updateUI();
 	}
 	
 	// Add a new series to the graph
@@ -159,9 +159,7 @@ public class Graph
 	{
 		m_seriesList[m_numSeries] = new Series(Constants.DEF_SERIES_TITLES[m_numSeries], Constants.DEF_SERIES_COLORS[m_numSeries], true);
 		m_graph.addTrace(m_seriesList[m_numSeries].getTrace());
-		m_seriesList[m_numSeries].AddDataPoint(m_xStartPoint,m_yStartPoint);
-		//Random random = new Random();
-		//m_seriesList[m_numSeries].AddDataPoint(5,random.nextDouble()*10.0);
+		
 		m_numSeries++;
 	}
 	
@@ -169,7 +167,7 @@ public class Graph
 	public void removeSeries()
 	{
 		m_seriesList[m_numSeries - 1].setTitle("");
-		m_graph.removeTrace(m_seriesList[m_numSeries -1].getTrace());//m_seriesList[m_numSeries -1].removeTrace(); // remove the object
+		m_graph.removeTrace(m_seriesList[m_numSeries -1].getTrace());
 		m_seriesList[m_numSeries -1].removeTrace();
 		m_numSeries--;
 	}
