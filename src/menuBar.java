@@ -6,6 +6,7 @@
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 public class menuBar  implements ActionListener{
 	JMenuBar bar = new JMenuBar();
@@ -97,12 +98,17 @@ public class menuBar  implements ActionListener{
 		// File Menu
 		if (event.getSource() == fileMenuItems[0])
 		{
-			CSVExporter exporter = new CSVExporter(ArduinoMain.myGraph.m_seriesList);
-			try {
-				exporter.export("file.csv");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			JFileChooser fc = new JFileChooser();
+			int ret = fc.showSaveDialog(null);
+			if (ret == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				CSVExporter exporter = new CSVExporter(ArduinoMain.myGraph.m_seriesList);
+				try {
+					exporter.export(file.getPath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		/*else if (event.getSource() == fileMenuItems[1])

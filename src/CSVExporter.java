@@ -16,16 +16,7 @@ public class CSVExporter {
 		CSVWriter writer = new CSVWriter(new FileWriter(filename));
 		
 		for(int i = 0; i < data.length; i++) {
-			System.out.println(i);
-
-			if(data[i] == null) {
-				continue;
-			}
-			
-			System.out.println(ArduinoMain.myGraph.m_seriesList[i].m_data);
-			System.out.println(data[i].m_data);
-			
-			if(data[i].m_data == null) {
+			if(data[i] == null || data[i].m_data == null) {
 				continue;
 			}
 				
