@@ -144,26 +144,39 @@ public class menuBar  implements ActionListener{
 		// View Menu - Used to show/hide elements
 		else if (event.getSource() == viewMenuItems[0]) // Toolbar
 		{
-			if (viewMenuItems[0].getState() == true)
+			if (viewMenuItems[0].getState() == true){
 				ArduinoMain.myToolbar.setVisible(true);
-			else
+				ArduinoMain.myGraph.m_graph.updateUI();
+			}
+			else {
 				ArduinoMain.myToolbar.setVisible(false);
+				ArduinoMain.myGraph.m_graph.updateUI();
+			}
 		}
 
 		else if (event.getSource() == viewMenuItems[1]) // Settings manager
 		{
 			if (viewMenuItems[1].getState() == true)
+			{
 				ArduinoMain.mySettingsManager.setVisible(true);
-			else
+				ArduinoMain.myGraph.m_graph.updateUI();
+			}
+			else{
 				ArduinoMain.mySettingsManager.setVisible(false);
+				ArduinoMain.myGraph.m_graph.updateUI();
+			}
 		}
 		
 		else if (event.getSource() == viewMenuItems[2]) // Status bar
 		{
-			if (viewMenuItems[2].getState() == true)
+			if (viewMenuItems[2].getState() == true) {
 				ArduinoMain.myStatusbar.setVisible(true);
-			else
+				ArduinoMain.myGraph.m_graph.updateUI();
+				}
+			else {
 				ArduinoMain.myStatusbar.setVisible(false);
+				ArduinoMain.myGraph.m_graph.updateUI();
+			}
 		}
 		
 		// Connection Menu

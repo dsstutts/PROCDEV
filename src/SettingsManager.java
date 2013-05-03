@@ -126,8 +126,6 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 		gridConstraints.gridwidth = 1;
 		gridConstraints.gridy++;
 
-		// TODO: Working here
-
 		// Buttons to Add / Remove Series
 		addSeriesButton = new JButton(Constants.DEF_SETTINGSMANAGER_ADD_SERIES_BUTTON);
 		addSeriesButton.addActionListener(this);
@@ -238,24 +236,29 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 			ArduinoMain.myGraph.addSeries();
 		}
 		
-		
+		// Remove Series Event
 		else if (event.getSource() == removeSeriesButton) {
 			int numSeries = ArduinoMain.myGraph.getNumSeries();
 			
+			// Disable series button if we've reached the min number of series
 			if (numSeries == Constants.DEF_NUM_SERIES + 1) {
 				removeSeriesButton.setEnabled(false);
 			}
+			// Else, series button should always be enabled
 			else if (numSeries == Constants.DEF_MAX_NUM_SERIES) {
 				addSeriesButton.setEnabled(true);
 			}
+			
+			// When we've removed numSeries-1, we hide the entire row and reset the text values
 			seriesLabels[numSeries-1].setVisible(false); // This does not change
-		
 			seriesFields[numSeries - 1].setText("");
 			seriesFields[numSeries-1].setVisible(false);
 			
+			// Hide the color button
 			seriesColorButton[numSeries-1].setVisible(false);
 			seriesColorButton[numSeries-1].setBackground(Constants.DEF_SERIES_COLORS[numSeries-1]);
 			
+			// Hide the show/hide icon
 			seriesShowHideButton[numSeries-1].setVisible(false);
 			seriesShowHideButton[numSeries - 1].setIcon(showIcon);
 			ArduinoMain.myGraph.removeSeries();
@@ -267,6 +270,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[0].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[0].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[0].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[0].Show();
@@ -277,6 +281,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[1].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[1].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[1].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[1].Show();
@@ -287,6 +292,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[2].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[2].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[2].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[2].Show();
@@ -297,6 +303,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[3].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[3].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[3].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[3].Show();
@@ -307,6 +314,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[4].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[4].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[4].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[4].Show();
@@ -317,6 +325,7 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 				seriesShowHideButton[5].setIcon(hideIcon);
 				ArduinoMain.myGraph.m_seriesList[5].Hide();
 			}
+			// It is currently hidde, show content
 			else {
 				seriesShowHideButton[5].setIcon(showIcon);
 				ArduinoMain.myGraph.m_seriesList[5].Show();
@@ -335,26 +344,31 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 					ArduinoMain.myGraph.m_seriesList[0].setColor(color);
 				}
 
+				// Change color for series 1
 				else if (event.getSource() == seriesColorButton[1]){
 					seriesColorButton[1].setBackground(color);
 					ArduinoMain.myGraph.m_seriesList[1].setColor(color);
 				}
 
+				// Change color for series 2
 				else if (event.getSource() == seriesColorButton[2]){
 					seriesColorButton[2].setBackground(color);
 					ArduinoMain.myGraph.m_seriesList[2].setColor(color);
 				}
 
+				// Change color for series 3
 				else if (event.getSource() == seriesColorButton[3]) {
 					seriesColorButton[3].setBackground(color);
 					ArduinoMain.myGraph.m_seriesList[3].setColor(color);
 				}
 
+				// Change color for series 4
 				else if (event.getSource() == seriesColorButton[4]) {
 					seriesColorButton[4].setBackground(color);
 					ArduinoMain.myGraph.m_seriesList[4].setColor(color);
 				}
 
+				// Change color for series 5
 				else if (event.getSource() == seriesColorButton[5]) {
 					seriesColorButton[5].setBackground(color);
 					ArduinoMain.myGraph.m_seriesList[5].setColor(color);
@@ -371,11 +385,11 @@ public class SettingsManager extends JFrame implements PropertyChangeListener, A
 	public void propertyChange(PropertyChangeEvent e) {
 		Object source = e.getSource();
 
-		// Change x axis label
+		// Change x-axis label
 		if (source == settingsManagerFields[0]) {
 			ArduinoMain.myGraph.setXAxisLabel((String) settingsManagerFields[0].getValue());	
 		}
-		// Change y axis label
+		// Change y-axis label
 		else if (source == settingsManagerFields[1]) {
 			ArduinoMain.myGraph.setYAxisLabel((String) settingsManagerFields[1].getValue());
 		}

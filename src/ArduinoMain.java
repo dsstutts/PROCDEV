@@ -54,20 +54,23 @@ class ArduinoMain {
 		StatusBar statusbar = new StatusBar();
 		myGraph = new Graph();
 
+		// Initialize values for the toolbar used
 		myToolbar = toolBar.createToolBar();
 		mySettingsManager = settingsManager.createSettingsManager();
 		myStatusbar = statusbar.createStatusBar();
-		// super ( Constants.DEF_APP_TITLE );
 
+		// Add the toolbar, menu bar, settingsmanager panel, status bar, and graph to main frame
 		myFrame.setJMenuBar(menuBar.createMenuBar());
 		myFrame.add(myToolbar, BorderLayout.NORTH);
 		myFrame.add(mySettingsManager, BorderLayout.WEST);
 		myFrame.add(myStatusbar, BorderLayout.SOUTH);
 		myFrame.add(myGraph.getGraph(), BorderLayout.CENTER);
 
+		// Initialize x-axis and y-axis labels on the graph
 		myGraph.setXAxisLabel(Constants.DEF_XAXIS_LABEL);
 		myGraph.setYAxisLabel(Constants.DEF_YAXIS_LABEL);
 
+		// Initialize values for the main frame (size, visibility, ect)
 		myFrame.setSize(Constants.DEF_FRAME_WIDTH, Constants.DEF_FRAME_HEIGHT);
 		myFrame.setLocationRelativeTo(null); // Window is Centered
 		myFrame.setVisible(true);

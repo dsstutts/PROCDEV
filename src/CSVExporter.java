@@ -5,13 +5,15 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
-
+// This class is used for functionality involved in exporting
+// data to a CSV file
 public class CSVExporter {
 	Series[] data;
 	public CSVExporter(Series[] series) {
 		data = series;
 	}
 
+	// Main export function for exporting data to a CSV file
 	public void export(String filename) throws IOException {
 		CSVWriter writer = new CSVWriter(new FileWriter(filename));
 		
