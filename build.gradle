@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "ArduinoMain"
+
+jar {
+
+	into('lib') {
+		from 'lib'
+	}
+
+	manifest {
+		attributes 'Main-Class': 'ArduinoMain'
+	}
+}
+
+repositories {
+	flatDir name:'Jars',dirs:'lib'
+	dependencies {
+		compile group: 'gnu.io', name: 'RXTXcomm'
+		compile group: 'info.monitorenter.gui.chart', name: 'jchart2d', version:'3.2.2'
+		compile group: 'au.com.bytecode.opencsv', name: 'opencsv', version:'2.3'
+	}
+}
+
